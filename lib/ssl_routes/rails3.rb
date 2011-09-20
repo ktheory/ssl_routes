@@ -41,6 +41,7 @@ module SslRoutes
           routes = Rails.application.routes
           options = routes.recognize_path request.path, request.env
           current, target = determine_protocols(options)
+          logger.debug "CURRENT: #{current}; TARGET: #{target}; SSL: #{self.request.ssl?}"
           if current != target && !request.xhr? && request.get?
             flash.keep
             redirect_to "#{target}://#{request.host_with_port + request.fullpath}"
